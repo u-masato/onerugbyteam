@@ -1,0 +1,10 @@
+<h1>選手一覧ページ</h1>
+
+<%= form_tag players_path, :method => 'get' do %>
+  <p>
+      <%= text_field_tag :search, params[:search] %>
+      <%= select_tag :position, options_for_select( %w(ALL PR HO LO FL NO8 SH SO CTB WTB FB UTB)) %>
+      <%= submit_tag "Search", :name => nil %>
+  </p>
+<% end %>
+<%= render 'players_list', players: @players %>

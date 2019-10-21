@@ -1,0 +1,49 @@
+
+<div class="text-center">
+    <h1>選手登録</h1>
+</div>
+
+<div class="row">
+    <%= form_with(model: @player, local: true) do |f| %>
+        <table class="table table-striped table-bordered table-sm">
+            <tr>
+                <th><%= f.label :name, 'Name' %></th>
+                <td><%= f.text_field :name, class: 'form-control' %></td>
+            </tr>
+    
+            <tr>
+               <th><%= f.label :height, 'Height[cm]' %></th> 
+               <td><%= f.text_field :height, class: 'form-control' %></td>
+            </tr>
+    
+            <tr>
+                <th><%= f.label :weight, 'Weight[kg]' %></th>
+                <td><%= f.text_field :weight, class: 'form-control' %></td>
+            </tr>
+    
+            <tr>
+                <% positions = ['PR', 'HO', 'LO', 'FL', 'NO8', 'SH', 'SO', 'CTB', 'WTB', 'FB', 'UTB'] %>
+                <th><%= f.label :position, 'Position' %></th>
+                <td><%= f.select :position, positions, class: 'form-control' %></td>
+            </tr>
+            
+            <tr>
+                <th><%= f.label :birthday, "Birthday" %></th>
+                <td><%= f.date_select :birthday, start_year: 1960, end_year: Time.current.year, use_month_numbers: true %></td>
+            </tr>
+            
+            <tr>
+                TODO: 画像のアップロード
+            </tr>
+            
+            
+            <tr>
+                <th><%= f.label :country, "Country from"%></th>
+                <td><%= f.country_select :country_code %></td>
+            </tr>
+            
+        </table>
+        <%= f.submit '登録', class: 'btn btn-primary btn-block' %>
+    <% end %>
+
+ </div>

@@ -1,0 +1,27 @@
+<% if players %>
+    <table class="table table-striped">
+        <tr>
+            <th class="text-center">name</th>
+            <th class="text-center">position</th>
+            <th class="text-center">weight[kg]</th>
+            <th class="text-center">height[cm]</th>
+            <th class="text-center">birthday</th>
+            <th class="text-center">country</th>
+            <th class="text-center">image</th>
+        </tr>
+        <% players.each do |player| %>
+            
+            <tr>
+                <td class="text-center"><%= link_to player.name, player %></td>
+                <td class="text-center"><%= player.position %></td>
+                <td class="text-center"><%= player.height %></td>
+                <td class="text-center"><%= player.weight %></td>
+                <td class="text-center"><%= player.birthday %></td>
+                <td class="text-center"><%= player.country_code %></td>
+                <td class="text-center"><%= "画像なし" %></td>
+            </tr>
+        <% end %>
+    </table>
+<% else %>
+  <h4>選手がいません</h4>
+<% end %>

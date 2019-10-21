@@ -23,7 +23,7 @@ class User < ApplicationRecord
     favorite.destroy if favorite
   end
   
-  def is_fovarite_player?(player)
+  def is_favarite_player?(player)
     self.favorite_players.include?(player)
   end
 

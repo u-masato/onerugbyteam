@@ -9,5 +9,23 @@ class User < ApplicationRecord
       
   validates :birthday, presence: true
     
-  has_secure_password  
+  has_secure_password
+  
+  has_many :favorites
+  has_many :favorite_players, through: :favorites, source: :player
+
+  def add_favorite(player)
+    self.favorites.find_or_create_by(player_id: player.id)
+  end
+
+  def remove_favorite(player)
+    favorite = self.favorites.find_by(player_id: player.id)
+    favorite.destroy if favorite
+  end
+  
+  def is_fovarite_player?(player)
+    self.favorite_players.include?(player)
+  end
+
+
 end

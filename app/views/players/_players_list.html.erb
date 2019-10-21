@@ -10,7 +10,6 @@
             <th class="text-center">image</th>
         </tr>
         <% players.each do |player| %>
-            
             <tr>
                 <td class="text-center"><%= link_to player.name, player %></td>
                 <td class="text-center"><%= player.position %></td>
@@ -19,6 +18,19 @@
                 <td class="text-center"><%= player.birthday %></td>
                 <td class="text-center"><%= player.country_code %></td>
                 <td class="text-center"><%= "画像なし" %></td>
+                <% if logged_in? %>
+                    <% if not current_user.is_fovarite_player?(player) %>
+                        <%= form_with(model: current_user.favorites.build, local: true) do |f| %>
+                          <%= hidden_field_tag :player_id, player.id %>
+                          <td><%= f.submit 'お気に入り', class: 'btn btn-primary btn-block btn-sm' %></td>
+                        <% end %>
+                    <% else %>
+                        <%= form_with(model: current_user.favorites.find_by(player_id: player.id), local: true, method: :delete) do |f| %>
+                            <%= hidden_field_tag :player_id, player.id %>
+                          <td><%= f.submit 'お気に入り解除', class: 'btn btn-danger btn-block btn-sm' %></td>
+                        <% end %>
+                    <% end %>
+                <% end %>
             </tr>
         <% end %>
     </table>

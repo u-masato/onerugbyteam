@@ -11,5 +11,5 @@ Rails.application.routes.draw do
   
   resources :users, only: [:show, :new, :create]
   resources :players
-  
+  resources :favorites, only: [:create, :destroy]
 end

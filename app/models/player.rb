@@ -7,4 +7,6 @@ class Player < ApplicationRecord
   # validates :country, presence: true
   # validates :image, format { with: \.[jpeg png] }
   
+  has_many :favorites
+  has_many :followers, through: :favorites, source: :user
 end

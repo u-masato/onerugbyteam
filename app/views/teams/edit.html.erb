@@ -6,7 +6,7 @@
         <% positions = %w(PR HO PR LO LO FL FL NO8 SH SO CTB CTB WTB WTB FB) %>
         <div class="col-md-8">
             <table class="table">
-                <tr>
+                <tr class="table-info">
                     <th class="text-center">NO</th>
                     <th class="text-center">position</th>
                     <th class="text-center">name</th>
@@ -19,32 +19,25 @@
                 <tr>
                     <th class="text-center"><%= no %></th>
                     <th class="text-center"><%= positions[no-1] %></th>
-                    <!-- 
-                    <% #member = @team.members.find_by(position_number: no) %>
-                    <% #player = Player.find_by(id: member.player_id) %>
-                    -->
-                    <% player = nil %>
-                    <% if player %>
-                        <td><%= player.name %></td>
-                        <td><%= player.height %></td>
-                        <td><%= player.weight %></td>
-                        <td><%= player.country %></td>
-                        <td>player image</td>
+                    <% player =  @team.player_by_position_number_of(no) %>
+                    <% if player.present? %>
+                        <td class="text-center"><%= player.name %></td>
+                        <td class="text-center"><%= player.height %></td>
+                        <td class="text-center"><%= player.weight %></td>
+                        <td class="text-center"><%= player.country_code %></td>
+                        <td class="text-center">player image</td>
+                      　<td>
+                        　    <%= form_with(model: @team.members.find_by(player_id: player.id), local: true) do |f| %>
+                                  <%= f.hidden_field :id, :value => @team.id %>
+                                  <%= f.hidden_field :player_id, :value => player.id %>
+                                  <%= f.select :position_number, ['-'] + (1..15).to_a, class: 'block' %>
+                                  <%= f.submit '変更', class: 'btn btn-primary btn-block btn-sm'%>
+                              <% end %>
+                        </td>
+
                     <% else %>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td></td><td></td><td></td><td></td><td></td><td></td>
                     <% end %>
-
-                    <!-- 修正の必要あり --> 
-                    <td><%= form_with(model: current_user, local: true, method: :delete) do |f| %>
-                            <%= hidden_field_tag :player_id, 0 %>
-                            <%= f.submit 'はずす', class: 'btn btn-danger btn-sm' %>
-                        <% end %>
-                    </td>
-
                 </tr>
                 <% end %>
             </table>
@@ -54,17 +47,39 @@
         <div class="col-md-1">
             BK
         </div>
-        <div class="col-md-10">
+        <div class="col-md-8">
             <table class="table">
+                <tr class="table-info">
+                    <th class="text-center">NO</th>
+                    <th class="text-center">position</th>
+                    <th class="text-center">name</th>
+                    <th class="text-center">height[cm]</th>
+                    <th class="text-center">weight[kg]</th>
+                    <th class="text-center">country</th>
+                    <th class="text-center">image</th>
+                </tr>
                 <% (9..15).each do |no| %>
                 <tr>
-                    <th><%= no %></th>
-                    <th><%= positions[no-1] %></th>
-                    <td>player name</td>
-                    <td>player height</td>
-                    <td>player weight</td>
-                    <td>player country</td>
-                    <td>player image</td>
+                    <th class="text-center"><%= no %></th>
+                    <th class="text-center"><%= positions[no-1] %></th>
+                    <% player =  @team.player_by_position_number_of(no) %>
+                    <% if player.present? %>
+                        <td class="text-center"><%= player.name %></td>
+                        <td class="text-center"><%= player.height %></td>
+                        <td class="text-center"><%= player.weight %></td>
+                        <td class="text-center"><%= player.country_code %></td>
+                        <td class="text-center">player image</td>
+                      　<td>
+                        　    <%= form_with(model: @team.members.find_by(player_id: player.id), local: true) do |f| %>
+                                  <%= f.hidden_field :id, :value => @team.id %>
+                                  <%= f.hidden_field :player_id, :value => player.id %>
+                                  <%= f.select :position_number, ['-'] + (1..15).to_a, class: 'block' %>
+                                  <%= f.submit '変更', class: 'btn btn-primary btn-block btn-sm'%>
+                              <% end %>
+                        </td>
+                    <% else %>
+                        <td></td><td></td><td></td><td></td><td></td><td></td>
+                    <% end %>
                 </tr>
                 <% end %>
             </table>
@@ -99,7 +114,7 @@
                         　    <%= form_with(model: @team.members.build, local: true) do |f| %>
                                   <%= f.hidden_field :id, :value => @team.id %>
                                   <%= f.hidden_field :player_id, :value => player.id %>
-                                  <%= f.select :position_number, ['-'].concat(Array(1..15)) %>
+                                  <%= f.select :position_number, ['-'] + (1..15).to_a %>
                                   <%= f.submit '加える', class: 'btn btn-primary btn-sm'%>
                               <% end %>
                           </td>

@@ -18,5 +18,5 @@ Rails.application.routes.draw do
   
   resources :players
   resources :favorites, only: [:create, :destroy]
-  resources :members, only: [:create, :destroy]
+  resources :members, only: [:create, :update]
 end

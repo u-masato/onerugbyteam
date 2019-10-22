@@ -1,12 +1,32 @@
-<div>
+<div class="container">
     <h2><%= current_user.name %>さんの情報</h2>
     
-    <div class="row">
-        <h3>マイチーム一覧</h2>
-        <%= link_to '新チームをつくる', new_team_path, class: 'btn btn-primary' %>
+    <div class="row mt-4">
+        <h3 class="col-md-3">マイチーム一覧</h2>
+        <div class="col-md-3">
+            <%= link_to '新チームをつくる', new_team_path, class: 'btn btn-primary btn-block btn-sm' %>
+        </div>
     </div>
+
+    <% if current_user.teams.present? %>
+        <table class="table table-striped">
+            <tr>
+                <th class="text-center">チーム名</th>
+                <th>チーム概要</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <% current_user.teams.each do |team| %>
+                <tr>
+                    <td class="text-center"><%= team.name %></td>
+                    <td><%= team.description %></td>
+                    <td><%= link_to 'チーム詳細', team, class: "btn btn-info" %></td>
+                    <td><%= link_to 'チーム編成', edit_team_path(team), class: "btn btn-info" %></td>
+            <% end %>
+        </table>
+    <% end %>
     
-    <div class="row">
+    <div class="row mt-4">
         <h3>お気に入り選手一覧</h2>
         <%= render 'players/players_list', players: current_user.favorite_players %>
     </div>

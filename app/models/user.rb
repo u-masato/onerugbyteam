@@ -13,6 +13,7 @@ class User < ApplicationRecord
   
   has_many :favorites
   has_many :favorite_players, through: :favorites, source: :player
+  has_many :teams, dependent: :destroy
 
   def add_favorite(player)
     self.favorites.find_or_create_by(player_id: player.id)

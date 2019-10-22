@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_21_080945) do
+ActiveRecord::Schema.define(version: 2019_10_21_142451) do
 
   create_table "favorites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
@@ -20,6 +20,17 @@ ActiveRecord::Schema.define(version: 2019_10_21_080945) do
     t.index ["player_id"], name: "index_favorites_on_player_id"
     t.index ["user_id", "player_id"], name: "index_favorites_on_user_id_and_player_id", unique: true
     t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
+  create_table "members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "position_number"
+    t.bigint "team_id"
+    t.bigint "player_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_members_on_player_id"
+    t.index ["team_id", "player_id"], name: "index_members_on_team_id_and_player_id", unique: true
+    t.index ["team_id"], name: "index_members_on_team_id"
   end
 
   create_table "players", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -32,6 +43,17 @@ ActiveRecord::Schema.define(version: 2019_10_21_080945) do
     t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "teams", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id"
+    t.text "description"
+    t.string "first_jersey"
+    t.string "second_jersey"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_teams_on_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -47,4 +69,7 @@ ActiveRecord::Schema.define(version: 2019_10_21_080945) do
 
   add_foreign_key "favorites", "players"
   add_foreign_key "favorites", "users"
+  add_foreign_key "members", "players"
+  add_foreign_key "members", "teams"
+  add_foreign_key "teams", "users"
 end

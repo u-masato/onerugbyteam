@@ -1,0 +1,110 @@
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            FW
+        </div>
+        <% positions = %w(PR HO PR LO LO FL FL NO8 SH SO CTB CTB WTB WTB FB) %>
+        <div class="col-md-8">
+            <table class="table">
+                <tr>
+                    <th class="text-center">NO</th>
+                    <th class="text-center">position</th>
+                    <th class="text-center">name</th>
+                    <th class="text-center">height[cm]</th>
+                    <th class="text-center">weight[kg]</th>
+                    <th class="text-center">country</th>
+                    <th class="text-center">image</th>
+                </tr>
+                <% (1..8).each do |no| %>
+                <tr>
+                    <th class="text-center"><%= no %></th>
+                    <th class="text-center"><%= positions[no-1] %></th>
+                    <!-- 
+                    <% #member = @team.members.find_by(position_number: no) %>
+                    <% #player = Player.find_by(id: member.player_id) %>
+                    -->
+                    <% player = nil %>
+                    <% if player %>
+                        <td><%= player.name %></td>
+                        <td><%= player.height %></td>
+                        <td><%= player.weight %></td>
+                        <td><%= player.country %></td>
+                        <td>player image</td>
+                    <% else %>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    <% end %>
+
+                    <!-- 修正の必要あり --> 
+                    <td><%= form_with(model: current_user, local: true, method: :delete) do |f| %>
+                            <%= hidden_field_tag :player_id, 0 %>
+                            <%= f.submit 'はずす', class: 'btn btn-danger btn-sm' %>
+                        <% end %>
+                    </td>
+
+                </tr>
+                <% end %>
+            </table>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            BK
+        </div>
+        <div class="col-md-10">
+            <table class="table">
+                <% (9..15).each do |no| %>
+                <tr>
+                    <th><%= no %></th>
+                    <th><%= positions[no-1] %></th>
+                    <td>player name</td>
+                    <td>player height</td>
+                    <td>player weight</td>
+                    <td>player country</td>
+                    <td>player image</td>
+                </tr>
+                <% end %>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        
+        <table class="table table-striped">
+            <tr>
+                <th class="text-center">name</th>
+                <th class="text-center">position</th>
+                <th class="text-center">weight[kg]</th>
+                <th class="text-center">height[cm]</th>
+                <th class="text-center">birthday</th>
+                <th class="text-center">country</th>
+                <th class="text-center">image</th>
+            </tr>
+            <% current_user.favorite_players.each do |player| %>
+                <tr>
+                    <td class="text-center"><%= link_to player.name, player %></td>
+                    <td class="text-center"><%= player.position %></td>
+                    <td class="text-center"><%= player.height %></td>
+                    <td class="text-center"><%= player.weight %></td>
+                    <td class="text-center"><%= player.birthday %></td>
+                    <td class="text-center"><%= player.country_code %></td>
+                    <td class="text-center"><%= "画像なし" %></td>
+                    
+                        　<td>
+                        　    <%= form_with(model: @team.members.build, local: true) do |f| %>
+                                  <%= f.hidden_field :id, :value => @team.id %>
+                                  <%= f.hidden_field :player_id, :value => player.id %>
+                                  <%= f.select :position_number, ['-'].concat(Array(1..15)) %>
+                                  <%= f.submit '加える', class: 'btn btn-primary btn-sm'%>
+                              <% end %>
+                          </td>
+                </tr>
+            <% end %>
+        </table>
+    </div>
+</div>

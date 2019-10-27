@@ -23,9 +23,15 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user = User.find(params[:id])
   end
 
   def update
+    @user = User.find(params[:id])
+    @user.update(safe_user_params)
+    
+    flash[:success] = 'アカウントを更新しました'
+    redirect_to @user
   end
   
   private

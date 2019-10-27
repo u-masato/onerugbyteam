@@ -7,12 +7,11 @@ class Team < ApplicationRecord
   has_many :members
   has_many :players, through: :members, source: :player
   
-  def add_member(player, position_number)
-    self.members.find_or_create_by(player_id: player.id, position_number: position_number)
+  def add_member(player_id, position_number)
+    self.members.find_or_create_by(player_id: player_id, position_number: position_number)
   end
   
-  def remove_member(player)
-    member = self.members.find_by(player_id: player.id)
+  def remove_member(member)
     member.destroy if member
   end
   

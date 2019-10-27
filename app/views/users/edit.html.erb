@@ -1,2 +1,7 @@
-<h1>Users#edit</h1>
-<p>Find me in app/views/users/edit.html.erb</p>
+<div class="row">
+    <h1 class="col-sm-12 text-center">アカウント設定</h1>
+</div>
+
+<div class="row">
+    <%= render "user_profile", user: @user, action: '更新' %>
+</div>

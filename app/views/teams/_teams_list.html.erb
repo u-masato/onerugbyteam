@@ -1,0 +1,28 @@
+<% if teams.present? %>
+    <table class="table table-striped">
+        <tr>
+            <th class="text-center">チーム名</th>
+            <% 15.times do |no| %>
+                <th><%= no + 1 %></th>
+            <% end %> 
+            <th>オーナー</th>
+        </tr>
+        <% teams.each do |team| %>
+            <tr>
+                <td class="text-center"><%= team.name %></td>
+                <% 15.times do |no| %>
+                    <% player = team.player_by_position_number_of(no + 1) %>
+                    <td><% if player.present? && player.image? %>
+                        <%= image_tag player.image.url, :size => '60x60'%>
+                    <% elsif player.present? %>
+                        <%= player.name[0..4] %>
+                    <% else %>
+                        no player
+                    <% end %></td>
+                <% end %>
+                <td><%= team.user.name %></td>
+                <td><%= link_to '詳細', team, class: "btn btn-info" %></td>
+                <td><%= link_to '編成', edit_team_path(team), class: "btn btn-info" if team.user == current_user  %></td>
+        <% end %>
+    </table>
+<% end %>

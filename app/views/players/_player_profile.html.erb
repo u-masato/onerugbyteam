@@ -1,0 +1,88 @@
+<aside class="col-sm-3">
+    <%  if player.image? %>
+        <%= image_tag player.image.url, :size =>'200x200' %>
+    <% else %>
+        <p class="text-center">登録画像なし</p>
+        <%= image_tag ('ruger_man.png'), alt: "rugby player image" %>
+    <% end %>
+</aside>
+<div class="col-sm-6">
+    <% if action %>
+        <%= form_with(model: player, local: true) do |f| %>
+            <table class="table table-striped table-bordered table-sm">
+                <tr>
+                    <th><%= f.label :name, 'Name' %></th>
+                    <td><%= f.text_field :name, class: 'form-control' %></td>
+                </tr>
+        
+                <tr>
+                   <th><%= f.label :height, 'Height[cm]' %></th> 
+                   <td><%= f.text_field :height, class: 'form-control' %></td>
+                </tr>
+        
+                <tr>
+                    <th><%= f.label :weight, 'Weight[kg]' %></th>
+                    <td><%= f.text_field :weight, class: 'form-control' %></td>
+                </tr>
+        
+                <tr>
+                    <th><%= f.label :position, 'Position' %></th>
+                    <td><%= f.select :position, PlayersHelper::POSITIONS, class: 'form-control' %></td>
+                </tr>
+                
+                <tr>
+                    <th><%= f.label :birthday, "Birthday" %></th>
+                    <td><%= f.date_select :birthday, start_year: 1960, end_year: Time.current.year, use_month_numbers: true %></td>
+                </tr>
+                
+                <tr>
+                    <th><%= f.label :country, "Country from"%></th>
+                    <td><%= f.country_select :country_code %></td>
+                </tr>
+                
+                <tr>
+                    <th><%= f.label :image, "画像" %></th>
+                    <td><%= f.file_field :image %></td>
+                </tr>
+
+                
+            </table>
+            <%= f.submit action, class: 'btn btn-primary btn-block' %>
+        <% end %>
+    <% else %>
+        <table class="table table-striped table-bordered table-sm">
+            <tr>
+                <th>Name</th>
+                <td><%= player.name %></td>
+            </tr>
+    
+            <tr>
+               <th>Height[cm]</th> 
+               <td><%= player.height %></td>
+            </tr>
+    
+            <tr>
+                <th>Weight[kg]</th>
+                <td><%= player.weight %></td>
+            </tr>
+    
+            <tr>
+                <th>Position</th>
+                <td><%= player.position %></td>
+            </tr>
+            
+            <tr>
+                <th>Birthday</th>
+                <td><%= player.birthday %></td>
+            </tr>
+            
+            <tr>
+                <th>Country from</th>
+                <td><%= player.country_code %></td>
+            </tr>
+            
+        </table>    
+    <% end %>
+    
+</div>
+

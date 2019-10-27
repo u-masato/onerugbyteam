@@ -1,58 +1,63 @@
 class MembersController < ApplicationController
   before_action :require_user_logged_in
-  before_action :active_member_and_change_player
+  before_action :before_action_params
 
   def create
+    return render 'teams/edit' if @position_number == '-'
 
-    if @position_number == '-'
-      return render 'teams/edit'
+    @change_member = @team.members.find_by(position_number: @position_number.to_i)
+
+    if @change_member.present?
+      @change_member.player_id = @player_id
+      @change_member.save!
+    else
+      @team.members.find_or_create_by(player_id: @player_id, position_number: @position_number.to_i)
     end
     
-    # binding.pry
-    if @team.players?(@change_player)
-      @team.update_member(@change_player, @position_number)
-      return redirect_to edit_team_url(@team)
-    end
-
-    if @change_player.present? && @active_member.present?
-      @active_member.destroy
-    end
-
-    if @change_player.present?
-      @team.add_member(@change_player, @position_number)
-      flash[:success] = '選手を登録しました'
-    end
-
+    flash[:success] = '選手を登録しました'
     redirect_to edit_team_url(@team)
     
   end
   
   def update
-
-    if @position_number == '-' && @change_player.present?
-      @team.remove_member(@change_player)
+    # same position number
+    @active_member = Member.find_by(id: params[:id])
+    if @active_member.position_number == @position_number.to_i
       return redirect_to edit_team_url(@team)
     end
 
-    if @change_player.present? && @active_member.present?
+    # remove the member from team
+    if @position_number == '-'
       @active_member.destroy
+      return redirect_to edit_team_url(@team)
     end
 
-    if @change_player.present?
-      @team.update_member(@change_player, @position_number)
-      flash[:success] = '選手を変更しました'
+    # remove previous member from team
+    @change_member = @team.members.find_by(position_number: @position_number.to_i)
+    if @change_member.present?
+      @change_member.destroy
+      @active_member.position_number = @position_number.to_i
+      @active_member.save!
+    else
+      @active_member.position_number = @position_number.to_i
+      @active_member.save!
     end
 
+    flash[:success] = '選手を変更しました'
     redirect_to edit_team_url(@team)
+    
   end
   
   private 
   
-  def active_member_and_change_player
-    @team = Team.find(params[:member][:id])
+  def before_action_params
+    @team = Team.find(params[:member][:team_id])
     @position_number = params[:member][:position_number]
-    @active_member = @team.members.find_by(position_number: @position_number)
-    @change_player = Player.find_by(id: params[:member][:player_id])
+    @player_id = params[:member][:player_id]
+    
+    if not @team.user_id == current_user.id
+      redirect_to current_user
+    end
   end
   
 end

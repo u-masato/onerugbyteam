@@ -37,9 +37,18 @@ class PlayersController < ApplicationController
   end
 
   def edit
+    @player = Player.find(params[:id])
   end
 
   def update
+    @player = Player.find(params[:id])
+    if @player.update(safe_player_params)
+      flash[:success] = '更新しました'
+      redirect_to @player
+    else
+      flash.now[:dangeser] = '更新に失敗しました'
+      render :edit
+    end
   end
   
   private

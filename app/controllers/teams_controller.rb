@@ -1,9 +1,12 @@
 class TeamsController < ApplicationController
-  before_action :require_user_logged_in, only: [:new, :create, :show, :edit, :destroy]
-  
+  before_action :require_user_logged_in, only: [:new, :create, :edit, :destroy]
+  before_action :require_team_owner, only: [:edit, :destroy]
+
+  def index
+    @teams = Team.order(id: :desc).page(params[:page]).per(10)
+  end
+
   def new
-    #@team = Team.new(user_id: current_user.id)
-    #binding.pry
   end
 
   def create
@@ -18,9 +21,7 @@ class TeamsController < ApplicationController
   end
 
   def show
-  end
-
-  def index
+    @team = Team.find(params[:id])
   end
 
   def edit
@@ -28,12 +29,27 @@ class TeamsController < ApplicationController
   end
 
   def update
+    @team = Team.find(params[:id])
+    if @team.update(safe_team_params)
+      flash[:success] = 'チームを更新しました'
+      redirect_to @team
+    else
+      flash.now[:danger] = 'チームを更新できませんでした'
+      render 'teams/edit'
+    end
   end
   
   private
   
   def  safe_team_params
     params.require(:team).permit(:name, :description, :user_id, :first_jersey, :second_jersey)
+  end
+  
+  def require_team_owner
+    @team = Team.find(params[:id])
+    if not @team.user_id == current_user.id
+      redirect_to current_user
+    end
   end
     
 end

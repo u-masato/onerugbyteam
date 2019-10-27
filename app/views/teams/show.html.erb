@@ -1,2 +1,85 @@
-<h1>Teams#show</h1>
-<p>Find me in app/views/teams/show.html.erb</p>
+<div class="container">
+    <div class="row  align-items-center">
+        <div class="offset-1 col-md-6">
+            <h3>チーム名：<%= @team.name %></h3>
+            <p class="border" style="height: 50px"><%= @team.description %></p>
+        </div>
+    </div>
+
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            FW
+        </div>
+        <% positions = %w(PR HO PR LO LO FL FL NO8 SH SO CTB CTB WTB WTB FB) %>
+        <div class="col-md-8">
+            <table class="table">
+                <tr class="table-info">
+                    <th class="text-center">NO</th>
+                    <th class="text-center">position</th>
+                    <th class="text-center">name</th>
+                    <th class="text-center">height[cm]</th>
+                    <th class="text-center">weight[kg]</th>
+                    <th class="text-center">country</th>
+                    <th class="text-center">image</th>
+                </tr>
+                <% (1..8).each do |no| %>
+                <tr>
+                    <th class="text-center"><%= no %></th>
+                    <th class="text-center"><%= positions[no-1] %></th>
+                    <% player =  @team.player_by_position_number_of(no) %>
+                    <% if player.present? %>
+                        <td class="text-center"><%= player.name %></td>
+                        <td class="text-center"><%= player.height %></td>
+                        <td class="text-center"><%= player.weight %></td>
+                        <td class="text-center"><%= player.country_code %></td>
+                        <td class="text-center"><%= image_tag player.image.url, :size => "60x60" if player.image? %></td>
+                    <% else %>
+                        <td></td><td></td><td></td><td></td><td></td><td></td>
+                    <% end %>
+                </tr>
+                <% end %>
+            </table>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            BK
+        </div>
+        <div class="col-md-8">
+            <table class="table">
+                <tr class="table-info">
+                    <th class="text-center">NO</th>
+                    <th class="text-center">position</th>
+                    <th class="text-center">name</th>
+                    <th class="text-center">height[cm]</th>
+                    <th class="text-center">weight[kg]</th>
+                    <th class="text-center">country</th>
+                    <th class="text-center">image</th>
+                </tr>
+                <% (9..15).each do |no| %>
+                <tr>
+                    <th class="text-center"><%= no %></th>
+                    <th class="text-center"><%= positions[no-1] %></th>
+                    <% player =  @team.player_by_position_number_of(no) %>
+                    <% if player.present? %>
+                        <td class="text-center"><%= player.name %></td>
+                        <td class="text-center"><%= player.height %></td>
+                        <td class="text-center"><%= player.weight %></td>
+                        <td class="text-center"><%= player.country_code %></td>
+                        <td class="text-center"><%= image_tag player.image.url, :size => "60x60" if player.image? %></td>
+                    <% else %>
+                        <td></td><td></td><td></td><td></td><td></td><td></td>
+                    <% end %>
+                </tr>
+                <% end %>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+            <h3 class="text-center display-5">FW平均体重：<%= average_of_forward_weight %>[kg]</h3>
+            <p class= "lead" > 
+            <h3 class="text-center display-5">平均身長：<%= average_of_height %>[cm]</h3>
+    </div>
+</div>

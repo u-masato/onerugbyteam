@@ -6,7 +6,6 @@ Rails.application.routes.draw do
     resources :players, only: [:new, :create, :edit, :update, :destroy]
   end
 
-  
   get 'signup', to: 'users#new'
 
   get 'login', to: 'sessions#new'

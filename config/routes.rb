@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'toppages#index'
-  #get 'search', to: 'players#index'
+
+  namespace :admin do
+    resources :players, only: [:new, :create, :edit, :update, :destroy]
+  end
+
   
   get 'signup', to: 'users#new'
 
@@ -14,10 +18,10 @@ Rails.application.routes.draw do
     member do
       resources :teams
     end
-    
   end
   
-  resources :players
+  
+  resources :players, only: [:show, :index]
   resources :favorites, only: [:create, :destroy]
   resources :members, only: [:create, :update]
 end

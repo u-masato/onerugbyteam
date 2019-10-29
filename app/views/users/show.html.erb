@@ -18,4 +18,11 @@
     <div class="offset-4 col-md-4">
         <%= link_to 'アカウント設定', edit_user_path(current_user) , class: 'btn btn-primary btn-block' %>
     </div>
+    
+    <% if current_user&.administrator? %>
+        <div class="row mt-5 offset-4 col-md-4">
+            <%= link_to '新規選手登録', new_admin_player_path , class: 'btn btn-primary btn-block' %>
+        </div>
+    <% end %>    
+    
 </div>

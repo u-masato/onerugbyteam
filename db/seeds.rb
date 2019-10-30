@@ -6,8 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user = User.new(name: 'user', email: 'user@user.com', sex: 1, birthday: Date.new(1993, 2, 24), password: 'pw')
-user.save
-
-player = Player.new(name: '稲垣啓太', position: 'PR', height: 186, weight: 116, birthday: Date.new(1990, 06, 02), country: 'japan')
-player.save
+15.times do |n|
+    player = Player.new(name:'選手'+ n.to_s , position: PlayersHelper::POSITIONS[rand(10)], height: rand(160..210), weight: rand(60..140), birthday: Date.new(rand(1980..2000), rand(1..12), rand(1..28)), country_code: 'JP')
+    player.save
+end

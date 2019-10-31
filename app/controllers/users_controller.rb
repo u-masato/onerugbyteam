@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:show, :edit, :update]
+  before_action :require_user, only: [:show, :edit, :update]
   
   def show
   end
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
       flash[:success] = '登録しました'
       redirect_to root_url
     else
-      flash[:danger] = '登録に失敗しました'
+      flash.now[:danger] = '登録に失敗しました'
       render :new
     end
   end
@@ -28,10 +28,13 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @user.update(safe_user_params)
-    
-    flash[:success] = 'アカウントを更新しました'
-    redirect_to @user
+    if @user.update(safe_user_params)
+      flash[:success] = 'アカウントを更新しました'
+      redirect_to @user
+    else
+      flash.now[:danger] = '更新に失敗しました'
+      render :edit
+    end
   end
   
   private
@@ -39,4 +42,11 @@ class UsersController < ApplicationController
   def safe_user_params
     params.require(:user).permit(:name, :email, :sex, :birthday, :password, :password_confirmation)
   end
+  
+  def require_user
+    if current_user.id != params[:id].to_i
+      redirect_to login_url
+    end
+  end
+  
 end

@@ -3,6 +3,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
         　<%= form_with(model: current_user.teams.build, local: true) do |f| %>
+         　    <%= render 'layouts/error_team_messages' %>
          　    <%= f.hidden_field :user_id, :value => current_user.id %>
               <%= f.label :name, 'チーム名' %>
               <%= f.text_field :name, class: "form-control mb-2" %>

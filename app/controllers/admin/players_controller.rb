@@ -11,7 +11,7 @@ class Admin::PlayersController < Admin::Base
       flash[:success] = '選手登録しました'
       redirect_to @player
     else
-      flash.now[:dangeser] = '選手登録に失敗しました'
+      flash.now[:danger] = '選手登録に失敗しました'
       render :new
     end
   end
@@ -26,7 +26,7 @@ class Admin::PlayersController < Admin::Base
       flash[:success] = '更新しました'
       redirect_to edit_admin_player_url(@player)
     else
-      flash.now[:dangeser] = '更新に失敗しました'
+      flash.now[:danger] = '更新に失敗しました'
       render :edit
     end
   end

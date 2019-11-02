@@ -66,3 +66,4 @@ end
 
 gem 'carrierwave', '~> 1.3', '>= 1.3.1'
 gem 'cloudinary'
+gem 'rails-i18n', '~> 5.1'

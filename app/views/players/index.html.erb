@@ -1,5 +1,7 @@
 <h1>選手一覧</h1>
-
+<% if logged_in? %>
+  <p class="text-danger">お気に入りした選手は自分のチームに登録できます</p>
+<% end %>
 <%= form_tag players_path, :method => 'get' do %>
   <p>
       <%= text_field_tag :search, params[:search] %>

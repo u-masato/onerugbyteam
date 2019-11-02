@@ -2,7 +2,7 @@ class PlayersController < ApplicationController
   def index
     #return @players if not params[:positon]
     
-    if params[:search].blank? && params[:position] == 'ALL'
+    if params[:search].blank? && ( params[:position].blank? || params[:position] == 'ALL' )
       return @players =  Player.order(id: :desc).page(params[:page]).per(25)
     end
 

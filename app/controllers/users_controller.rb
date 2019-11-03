@@ -45,7 +45,7 @@ class UsersController < ApplicationController
   
   def require_user
     if current_user.id != params[:id].to_i
-      redirect_to login_url
+      redirect_to root_url
     end
   end
   

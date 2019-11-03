@@ -8,7 +8,7 @@
               <%= f.label :name, 'チーム名' %>
               <%= f.text_field :name, class: "form-control mb-2" %>
               <%= f.label :description, 'チーム概要' %>
-              <%= f.text_area :description, size: "3x4", class: "form-control", value: 'このラグビーチームの説明。。。' %>
+              <%= f.text_area :description, size: "3x4", class: "form-control", placeholder: 'このラグビーチームの説明。。。' %>
               <%= f.submit 'チーム作成', class: 'btn btn-primary btn-block mt-2'%>
           <% end %>
         </div>

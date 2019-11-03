@@ -2,7 +2,7 @@ class Team < ApplicationRecord
   belongs_to :user
   
   validates :name, presence: true, length: { maximum: 30 }
-  validates :description, length: { maximum: 1000 }
+  validates :description, length: { maximum: 100 }
   
   has_many :members
   has_many :players, through: :members, source: :player

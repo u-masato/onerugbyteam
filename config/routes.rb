@@ -13,13 +13,10 @@ Rails.application.routes.draw do
   delete 'logout', to: 'sessions#destroy'
   get 'teamtop', to: 'teams#index'
   
-  resources :users, only: [:show, :new, :create, :edit, :update] do
-    member do
-      resources :teams
-    end
-  end
-  
-  
+  resources :users, only: [:show, :new, :create, :edit, :update]
+
+  resources :teams
+
   resources :players, only: [:show, :index]
   resources :favorites, only: [:create, :destroy]
   resources :members, only: [:create, :update]

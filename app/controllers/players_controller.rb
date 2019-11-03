@@ -3,7 +3,7 @@ class PlayersController < ApplicationController
     #return @players if not params[:positon]
     
     if params[:search].blank? && ( params[:position].blank? || params[:position] == 'ALL' )
-      return @players =  Player.order(id: :desc).page(params[:page]).per(25)
+      return @players =  Player.order(id: :desc).page(params[:page]).per(10)
     end
 
     # search rugby player with 'name' and 'position'
@@ -15,6 +15,8 @@ class PlayersController < ApplicationController
     else
       @players = Player.where(name: params[:search], position: params[:position])
     end
+    
+    @players = @players.order(id: :desc).page(params[:page]).per(10)
   end
 
   def show

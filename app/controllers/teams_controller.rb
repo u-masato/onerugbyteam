@@ -3,7 +3,7 @@ class TeamsController < ApplicationController
   before_action :require_team_owner, only: [:edit, :destroy]
 
   def index
-    @teams = Team.order(id: :desc).page(params[:page]).per(10)
+    @teams = Team.order(id: :desc).page(params[:page]).per(8)
   end
 
   def new

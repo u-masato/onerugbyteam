@@ -64,6 +64,6 @@ group :production do
   gem 'pg', '>= 0.18', '< 2.0'
 end
 
-gem 'carrierwave', '~> 1.3', '>= 1.3.1'
+gem 'carrierwave', '~> 1.3'
 gem 'cloudinary'
 gem 'rails-i18n', '~> 5.1'
